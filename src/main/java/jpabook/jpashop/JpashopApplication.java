@@ -7,11 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class JpashopApplication {
 
 	public static void main(String[] args) {
-		Hello h = new Hello();
-		h.setData("테스트");
-		String data = h.getData();
-		System.out.println(data);
-
 		SpringApplication.run(JpashopApplication.class, args);
 	}
 
