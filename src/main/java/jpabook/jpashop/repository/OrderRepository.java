@@ -77,6 +77,13 @@ public class OrderRepository {
                     .getResultList();
     }
 
-//    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
-//    }
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select 0 from Order o" +
+                         " join fetch o.member m" +
+                         " join fetch 0.delivery d", Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }
