@@ -8,13 +8,13 @@ import jpabook.jpashop.repository.OrderRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class OrderApiController {
             order.getMember().getName(); //Lazy 강제 초기화
             order.getDelivery().getAddress(); //Lazy 강제 초기환
             List<OrderItem> orderItems = order.getOrderItems();
-            orderItems.forEach(o -> o.getItem().getName()); //Lazy 강제 초기화
+            orderItems.stream().forEach(o -> o.getItem().getName()); //Lazy 강제 초기화
         }
         return all;
     }
@@ -43,7 +43,16 @@ public class OrderApiController {
     public List<OrderDto> ordersV2() {
         List<Order> orders = orderRepository.findAll();
         List<OrderDto> result = orders.stream()
-                .map(OrderDto::new).collect(toList());
+                .map(o -> new OrderDto(o)).collect(toList());
+        return result;
+    }
+
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+        List<OrderDto> result = orders.stream()
+                .map(OrderDto::new)
+                .collect(toList());
         return result;
     }
 
@@ -64,7 +73,7 @@ public class OrderApiController {
             orderStatus = order.getStatus();
             address = order.getDelivery().getAddress();
             orderItems = order.getOrderItems().stream()
-                    .map(OrderItemDto::new) .collect(toList());
+                    .map(OrderItemDto::new).collect(toList());
         }
 
     }
