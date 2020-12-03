@@ -9,10 +9,13 @@ import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 import static java.util.stream.Collectors.toList;
 
@@ -23,6 +26,14 @@ public class OrderSimpleApiController {
     private final OrderRepository orderRepository;
     private final OrderSimpleQueryRepository orderSimpleQueryRepository;
 
+
+    @PostMapping(value = "/test")
+    public String test(@RequestParam(value = "memberId", required = false) String memberId,
+                       @RequestParam(value = "itemId", required = false) String itemId,
+                       @RequestParam(value = "count", required = false) String count,
+                       Locale locale) {
+        return "success";
+    }
 
     /**
      * V1. 엔티티 직접 노출

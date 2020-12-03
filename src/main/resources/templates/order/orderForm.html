@@ -2,32 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header"/>
 <body>
-<div class="container">
-    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-    <form role="form" action="/order" method="post">
-        <div class="form-group">
-            <label for="member">주문회원</label>
-            <select name="memberId" id="member" class="form-control">
-                <option value="">회원선택</option>
-                <option th:each="member : ${members}"
-                        th:value="${member.id}" th:text="${member.name}"/>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="item">상품명</label>
-            <select name="itemId" id="item" class="form-control">
-                <option value="">상품선택</option>
-                <option th:each="item : ${items}" th:value="${item.id}"
-                        th:text="${item.name}"/>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="count">주문수량</label>
-            <input type="number" name="count" class="form-control" id="count" placeholder="주문 수량을 입력하세요">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <br/>
-    <div th:replace="fragments/footer :: footer"/>
-</div> <!-- /container --> </body>
+    <div class="container">
+        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+        <form role="form" action="/order" method="post">
+            <div class="form-group">
+                <label for="member">주문회원</label>
+                <select name="memberId" id="member" class="form-control">
+                    <option value="">회원선택</option>
+                    <option th:each="member : ${members}"
+                            th:value="${member.id}" th:text="${member.name}"/>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="item">상품명</label>
+                <select name="itemId" id="item" class="form-control">
+                    <option value="">상품선택</option>
+                    <option th:each="item : ${items}" th:value="${item.id}"
+                            th:text="${item.name}"/>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="count">주문수량</label>
+                <input type="number" name="count" class="form-control" id="count" placeholder="주문 수량을 입력하세요">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <br/>
+        <button type="button" class="btn btn-primary" id="submit">Ajax Submit</button>
+        <br/>
+        <div th:replace="fragments/footer :: footer"/>
+    </div>
+<!-- /container -->
+<!--    <script th:src="@{/js/jquery.min.js}"></script>-->
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script>
+        $('#submit').click(function () {
+            var jsonData = JSON.stringify({
+                memberId: $('#member option:selected').val(),
+                itemId: $('#item option:selected').val(),
+                count: $('#count').val()
+            });
+            $.ajax({
+                url: "http://localhost:8080/test",
+                type: "POST",
+                data: jsonData,
+                contentType: "application/json",
+                dataType: "text",
+                headers: {
+                    'Accept-Language': 'ja-JP'
+                },
+                success: function (data) {
+                   alert('주문 성공!');
+                   location.href = '/orders';
+                },
+                error: function () {
+                   alert('주문 실패!');
+                }
+            });
+        });
+    </script>
+</body>
 </html>
