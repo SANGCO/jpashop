@@ -1,19 +1,27 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/dev/db/jpashop
-#    url: jdbc:h2:tcp://localhost/~/jpashop;MVCC=TRUE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:tcp://localhost/~/dev/db/jpashop
+##    url: jdbc:h2:tcp://localhost/~/jpashop;MVCC=TRUE
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/connectdb?useSSL=false&allowPublicKeyRetrieval=true
+    username: connectuser
+    password: connect123!@#
   jpa:
     hibernate:
       ddl-auto: create
-    properties:
-      hibernate:
-        #      show_sql: true
-        format_sql: true
-        default_batch_fetch_size: 1000
-#    database-platorm: org.hibernate.dialect.H2Dialect
+#    properties:
+#      hibernate:
+#        #      show_sql: true
+#        format_sql: true
+#        default_batch_fetch_size: 1000
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    show-sql: true
+    #    database-platorm: org.hibernate.dialect.H2Dialect
   tymeleaf:
     prefix: classpath:/templates/
     suffix: .html

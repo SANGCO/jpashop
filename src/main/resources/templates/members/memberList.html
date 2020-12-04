@@ -13,6 +13,7 @@
                 <th>도시</th>
                 <th>주소</th>
                 <th>우편번호</th>
+                <th>사진</th>
             </tr>
             </thead>
             <tbody>
@@ -23,6 +24,7 @@
                 <td th:text="${member.address?.city}"></td>
                 <td th:text="${member.address?.street}"></td>
                 <td th:text="${member.address?.zipcode}"></td>
+                <td><img th:src="'/members/image/' + ${member.id}" height="50" width="50"/></td>
             </tr>
             </tbody>
         </table>

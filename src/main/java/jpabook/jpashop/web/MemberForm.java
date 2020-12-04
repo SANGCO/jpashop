@@ -20,7 +20,7 @@ public class MemberForm {
 
     private String zipcode;
 
-    @ContentType(fileExtension = {"pdf", "jpg", "jpeg"}, contentType = {"image/jpeg", "image/png"})
+//    @ContentType(fileExtension = {"pdf", "jpg", "jpeg"}, contentType = {"image/jpeg", "image/png"})
     private MultipartFile attachedfile;
 
 }

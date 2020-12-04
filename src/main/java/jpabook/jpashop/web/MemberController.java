@@ -8,9 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -26,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping(value = "/members/new")
-    public String create(@Valid MemberForm form, BindingResult result) {
+    public String create(@Valid MemberForm form, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             return "members/createMemberForm";
         }
@@ -34,6 +37,7 @@ public class MemberController {
         Member member = new Member();
         member.setName(form.getName());
         member.setAddress(address);
+        member.setPhoto(form.getAttachedfile().getBytes());
         memberService.join(member);
         return "redirect:/";
     }
@@ -43,6 +47,12 @@ public class MemberController {
         List<Member> members = memberService.findMembers();
         model.addAttribute("members", members);
         return "members/memberList";
+    }
+
+    @GetMapping(value = "/members/image/{memberId}")
+    public @ResponseBody byte[] image(@PathVariable("memberId") Long memberId) {
+        Member member = memberService.findOne(memberId);
+        return member.getPhoto();
     }
 
 }

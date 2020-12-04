@@ -28,4 +28,8 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
+    @Lob
+    @Column(name = "photo", columnDefinition="MEDIUMBLOB")
+    private byte[] photo;
+
 }

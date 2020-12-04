@@ -13,7 +13,7 @@ public class RestControllerExceptionHandler {
     @ExceptionHandler(NotEnoughStockException.class)
     public ResponseEntity handleNotEnoughStockException(NotEnoughStockException exception) {
         ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDetails);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetails);
     }
 
 }
